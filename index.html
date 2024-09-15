@@ -6,7 +6,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="qrcode.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
 <link rel="stylesheet" href="css/bootstrap.min.css">
+	
 <style>
 	*{
 		margin: 0;
@@ -44,6 +46,7 @@
 				  <h5 class="card-title">QR Code Generator</h5>
 				  <input id="text" type="text" class="form-control" placeholder="Place your text here.." autofocus><br />
 					<button class="btn btn-primary">Generate</button>
+					<button class="btn btn-info" id="mybutton" >Download</button>
 				</div>
 			  </div>
 			</div>
@@ -72,5 +75,33 @@ $("#text").
 			makeCode();
 		}
 	});
+
+
+
+//get the html button
+let btnDownload = document.querySelector('#mybutton');
+//get the html image
+let imgdwn = document.querySelector('qrcode');
+
+	btnDownload.addEventListener('click', () => {
+//getting the src of image
+    let imagePath = imgdwn.getAttribute('src');
+
+//image format
+    let fileName = getFileName(imagePath);
+
+ //eg :saveAs("https://httpbin.org/image", "image.jpg"); 
+    saveAs(imagePath, fileName);
+
+});
+
+	function getFileName(str) {
+//search '=' from url starting from end and give the output
+    let gotstr = str.substring(str.lastIndexOf('=') + 1 );
+
+    let format = ".jpg";
+// return the format ie image.jpg
+    return  gotstr.concat(format);
+}
 </script>
 </body>
